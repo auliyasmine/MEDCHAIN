@@ -1,5 +1,8 @@
 # MedChain Backend
+## 🔗 Link Deployment Live
+Aplikasi ini sudah berhasil di-deploy secara online dan dapat diakses langsung oleh dosen atau publik melalui tautan berikut:
 
+👉 **[Main App: medchain-omw3.vercel.app](https://medchain-omw3.vercel.app/)**
 API gateway pendukung sistem **MedChain** (Front-End + Smart Contract + IPFS).
 
 ## Peran Backend Ini
