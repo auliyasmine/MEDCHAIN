@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Pasien — MedChain</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="app-shell">
+
+<div id="toast-container"></div>
+
+<!-- ── Topbar ── -->
+<header class="topbar">
+  <button class="sidebar-toggle" onclick="UI.toggleSidebar()"><i class="fas fa-bars"></i></button>
+
+  <a href="index.html" class="topbar-logo">
+    <div class="icon"><i class="fas fa-link"></i></div>
+    <span class="name">Med<span>Chain</span></span>
+  </a>
+  <div class="topbar-divider"></div>
+  <span class="topbar-page-title">Dashboard Pasien</span>
+
+  <div class="topbar-spacer"></div>
+
+  <div class="topbar-right">
+    <div class="network-badge">
+      <span class="dot"></span>
+      <span class="network-badge-text">Sepolia</span>
+    </div>
+
+    <button class="icon-btn" title="Notifikasi" onclick="UI.Toast.info('Notifikasi', 'Tidak ada notifikasi baru')">
+      <i class="fas fa-bell"></i>
+      <span class="badge-dot"></span>
+    </button>
+
+    <div class="wallet-pill" data-action="copy-address" title="Klik untuk salin alamat">
+      <div class="avatar"></div>
+      <span class="addr wallet-addr-display">0x0000…0000</span>
+    </div>
+  </div>
+</header>
+
+<!-- ── Sidebar ── -->
+<div class="sidebar-overlay" onclick="UI.closeSidebar()"></div>
+
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Menu Utama</div>
+    <a class="sidebar-item active" data-view="records" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-file-medical"></i></span>
+      Rekam Medis
+    </a>
+    <a class="sidebar-item" data-view="access" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-key"></i></span>
+      Kelola Akses
+      <span class="sidebar-badge cyan">2</span>
+    </a>
+    <a class="sidebar-item" data-view="upload" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-upload"></i></span>
+      Upload Dokumen
+    </a>
+    <a class="sidebar-item" data-view="activity" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-history"></i></span>
+      Log Aktivitas
+    </a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Navigasi</div>
+    <a class="sidebar-item" href="index.html">
+      <span class="sidebar-item-icon"><i class="fas fa-home"></i></span>
+      Landing Page
+    </a>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="avatar"><span>P</span></div>
+      <div class="info">
+        <div class="name" id="sidebar-name">0x0000…0000</div>
+        <div class="role" id="sidebar-role">Pasien</div>
+      </div>
+      <i class="fas fa-sign-out-alt logout-btn" data-action="disconnect" title="Keluar" style="cursor:pointer"></i>
+    </div>
+  </div>
+</aside>
+
+<!-- ── Main Content ── -->
+<main class="main-content">
+
+  <!-- ═══ VIEW: RECORDS ═══ -->
+  <div id="view-records" class="view active">
+    <div class="card">
+        <!-- STAT CARDS -->
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-card-top">
+        <div>
+          <div class="stat-card-value">3</div>
+          <div class="stat-card-label">Total Rekam Medis</div>
+        </div>
+        <div class="stat-card-icon" style="background:var(--color-cyan-light);color:var(--color-cyan)">
+          <i class="fas fa-file-medical"></i>
+        </div>
+      </div>
+      <div class="stat-card-change up"><i class="fas fa-arrow-up"></i> +1 bulan ini</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-top">
+        <div>
+          <div class="stat-card-value">2</div>
+          <div class="stat-card-label">Akses Aktif</div>
+        </div>
+        <div class="stat-card-icon" style="background:var(--color-green-light);color:var(--color-green)">
+          <i class="fas fa-key"></i>
+        </div>
+      </div>
+      <div class="stat-card-change up"><i class="fas fa-shield-alt"></i> Terverifikasi</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-top">
+        <div>
+          <div class="stat-card-value">4</div>
+          <div class="stat-card-label">Log Aktivitas</div>
+        </div>
+        <div class="stat-card-icon" style="background:var(--color-purple-light);color:var(--color-purple)">
+          <i class="fas fa-history"></i>
+        </div>
+      </div>
+      <div class="stat-card-change up"><i class="fas fa-clock"></i> 1 hari ini</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-top">
+        <div>
+          <div class="stat-card-value">100%</div>
+          <div class="stat-card-label">Integritas Data</div>
+        </div>
+        <div class="stat-card-icon" style="background:var(--color-amber-light);color:var(--color-amber)">
+          <i class="fas fa-check-double"></i>
+        </div>
+      </div>
+      <div class="stat-card-change up"><i class="fas fa-lock"></i> On-chain verified</div>
+    </div>
+  </div>
+
+      <div class="card-header">
+        <div class="card-title">
+          <div class="icon" style="background:var(--color-cyan-light);color:var(--color-cyan)"><i class="fas fa-file-medical"></i></div>
+          Rekam Medis Saya
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm btn-outline" onclick="UI.Toast.info('Filter', 'Filter sedang dikembangkan')">
+            <i class="fas fa-filter"></i> Filter
+          </button>
+          <button class="btn btn-sm btn-primary" data-view="upload" onclick="UI.showView('upload');document.querySelectorAll('[data-view]').forEach(i=>i.classList.toggle('active',i.dataset.view==='upload'))">
+            <i class="fas fa-plus"></i> Tambah
+          </button>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table class="mc-table">
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Dokter / Fasilitas</th>
+              <th>Diagnosis</th>
+              <th>IPFS Hash</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="records-tbody">
+            <tr><td colspan="6" style="text-align:center;padding:32px;color:var(--color-navy-400)"><i class="fas fa-spinner" style="animation:spin 1s linear infinite"></i> Memuat data dari blockchain…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VIEW: ACCESS ═══ -->
+  <div id="view-access" class="view">
+    <div class="grid-2">
+      <!-- Grant Access -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="icon" style="background:var(--color-green-light);color:var(--color-green)"><i class="fas fa-user-plus"></i></div>
+            Berikan Akses
+          </div>
+        </div>
+        <p style="font-size:0.875rem;color:var(--color-navy-400);margin-bottom:18px">
+          Masukkan alamat Ethereum dokter atau rumah sakit yang ingin Anda beri izin membaca rekam medis Anda.
+        </p>
+        <form id="form-grant">
+          <div class="form-group">
+            <label class="form-label" for="grant-address">Alamat Ethereum<span class="required">*</span></label>
+            <input type="text" id="grant-address" class="form-control mono" placeholder="0x4B21…A3F9" required />
+            <div class="form-hint">Contoh: 0x4B21c3d8F9a2E1B7C5D0A3F9e8B2C1D4E5F6A3F9</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="grant-label">Label (opsional)</label>
+            <input type="text" id="grant-label" class="form-control" placeholder="mis. Dr. Budi Santoso" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="grant-expires">Batas Waktu Akses</label>
+            <select id="grant-expires" class="form-control">
+              <option value="0">Tidak Terbatas</option>
+              <option value="7">7 Hari</option>
+              <option value="30">30 Hari</option>
+              <option value="90">90 Hari</option>
+              <option value="365">1 Tahun</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary w-full" style="width:100%;justify-content:center">
+            <i class="fas fa-key"></i> Grant Access di Blockchain
+          </button>
+        </form>
+      </div>
+
+      <!-- Revoke Access -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="icon" style="background:var(--color-red-light);color:var(--color-red)"><i class="fas fa-ban"></i></div>
+            Cabut Akses
+          </div>
+          <span class="badge badge-cyan" id="access-count">2 aktif</span>
+        </div>
+        <p style="font-size:0.875rem;color:var(--color-navy-400);margin-bottom:18px">
+          Daftar entitas yang saat ini memiliki akses ke rekam medis Anda.
+        </p>
+        <ul class="access-list" id="access-list">
+          <li style="text-align:center;padding:20px;color:var(--color-navy-400)">
+            <i class="fas fa-spinner" style="animation:spin 1s linear infinite"></i> Memuat…
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VIEW: UPLOAD ═══ -->
+  <div id="view-upload" class="view">
+    <div style="max-width:640px">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="icon" style="background:var(--color-purple-light);color:var(--color-purple)"><i class="fas fa-upload"></i></div>
+            Unggah Dokumen Pendukung
+          </div>
+        </div>
+        <p style="font-size:0.8125rem;color:var(--color-navy-400);margin-bottom:18px">
+          Dokumen yang Anda unggah di sini <strong>belum berstatus rekam medis resmi</strong>. Dokumen akan disimpan
+          sementara di IPFS dan menunggu dokter/fasilitas terkait memverifikasi serta mencatatnya secara on-chain
+          melalui fungsi <code class="mono">addMedicalRecord()</code>.
+        </p>
+
+        <!-- Step bar -->
+        <div class="step-bar" style="margin-bottom:28px">
+          <div class="step-item">
+            <div class="step-circle active" id="step-1">1</div>
+            <div class="step-line" id="line-1"></div>
+          </div>
+          <div class="step-item">
+            <div class="step-circle" id="step-2">2</div>
+            <div class="step-line" id="line-2"></div>
+          </div>
+          <div class="step-item">
+            <div class="step-circle" id="step-3">3</div>
+            <div class="step-line" style="display:none"></div>
+          </div>
+        </div>
+
+        <form id="form-upload">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="upload-type">Jenis Dokumen<span class="required">*</span></label>
+              <select id="upload-type" class="form-control" required>
+                <option value="">— Pilih Jenis —</option>
+                <option>Hasil Lab</option>
+                <option>Radiologi / X-Ray</option>
+                <option>Resep Dokter</option>
+                <option>Catatan Konsultasi</option>
+                <option>Laporan Operasi</option>
+                <option>Hasil USG</option>
+                <option>Lainnya</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="upload-date">Tanggal Dokumen<span class="required">*</span></label>
+              <input type="date" id="upload-date" class="form-control" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="upload-doctor">Alamat Wallet Dokter Penerbit<span class="required">*</span></label>
+            <input type="text" id="upload-doctor" class="form-control mono" placeholder="0x1234...abcd" pattern="^0x[a-fA-F0-9]{40}$" title="Masukkan alamat wallet Ethereum yang valid (0x diikuti 40 karakter heksadesimal)" required />
+            <div class="form-hint">Masukkan alamat wallet Ethereum dokter yang akan meninjau dokumen ini. Dokumen hanya akan muncul di halaman "Permintaan Verifikasi" dokter dengan alamat wallet yang sama.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="upload-note">Catatan untuk Dokter (opsional)</label>
+            <textarea id="upload-note" class="form-control" rows="3" placeholder="Contoh: hasil lab dari faskes luar, mohon ditinjau dan dicatat ke rekam medis…"></textarea>
+            <div class="form-hint">Catatan ini bukan diagnosis. Diagnosis hanya dapat dicatat oleh dokter melalui <code class="mono">addMedicalRecord()</code> setelah meninjau dokumen ini.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">File Dokumen<span class="required">*</span></label>
+            <div id="drop-zone" style="border:2px dashed var(--color-border);border-radius:var(--radius-md);padding:32px;text-align:center;cursor:pointer;transition:var(--transition);background:var(--color-surface-2)"
+              ondragover="event.preventDefault();this.style.borderColor='var(--color-cyan)'"
+              ondragleave="this.style.borderColor='var(--color-border)'"
+              ondrop="PatientUpload.handleDrop(event)"
+              onclick="document.getElementById('upload-file').click()">
+              <i class="fas fa-cloud-upload-alt" style="font-size:28px;color:var(--color-navy-300);margin-bottom:10px;display:block"></i>
+              <div style="font-size:0.875rem;font-weight:500;color:var(--color-navy-700)">Drag & drop atau klik untuk pilih file</div>
+              <div style="font-size:0.75rem;color:var(--color-navy-400);margin-top:4px">PDF, JPG, PNG, DICOM — maks. 50 MB</div>
+              <div id="file-name" style="display:none;margin-top:10px;font-size:0.8125rem;color:var(--color-cyan);font-weight:500"></div>
+            </div>
+            <input type="file" id="upload-file" style="display:none" accept=".pdf,.jpg,.jpeg,.png,.dcm" onchange="PatientUpload.onFileSelect(this)" />
+          </div>
+          <div style="background:var(--color-amber-light);border:1px solid rgba(245,158,11,.2);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:16px;font-size:0.8125rem;color:#92400e">
+            <i class="fas fa-info-circle"></i> Dokumen akan dienkripsi dan diunggah ke IPFS. Hash IPFS dicatat sebagai
+            <strong>permintaan verifikasi</strong> — status akan berubah menjadi "Terverifikasi" setelah dokter
+            mengonfirmasi dan mencatatnya on-chain.
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">
+            <i class="fas fa-upload"></i> Kirim untuk Verifikasi Dokter
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VIEW: ACTIVITY ═══ -->
+  <div id="view-activity" class="view">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="icon" style="background:var(--color-amber-light);color:var(--color-amber)"><i class="fas fa-history"></i></div>
+          Log Aktivitas Blockchain
+        </div>
+        <button class="btn btn-sm btn-outline" onclick="UI.Toast.info('Export', 'Fitur export CSV sedang dikembangkan')">
+          <i class="fas fa-download"></i> Export
+        </button>
+      </div>
+      <p style="font-size:0.8125rem;color:var(--color-navy-400);margin-bottom:16px">
+        Semua transaksi yang melibatkan rekam medis Anda, tercatat permanen di blockchain Sepolia.
+      </p>
+      <ul class="activity-list" id="access-logs"></ul>
+    </div>
+  </div>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js" crossorigin="anonymous"></script>
+<script src="js/config.js"></script>
+<script src="js/wallet.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // File upload helper
+  const PatientUpload = {
+    handleDrop(e) {
+      e.preventDefault();
+      document.getElementById('drop-zone').style.borderColor = 'var(--color-border)';
+      const file = e.dataTransfer.files[0];
+      if (file) this.showFile(file);
+    },
+    onFileSelect(input) {
+      if (input.files[0]) this.showFile(input.files[0]);
+    },
+    showFile(file) {
+      const el = document.getElementById('file-name');
+      el.textContent = `📎 ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+      el.style.display = 'block';
+    }
+  };
+
+  // Upload form handler
+  document.getElementById('form-upload')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    const restore = UI.setButtonLoading(btn, 'Mengenkripsi…');
+
+    // Animate steps
+    const steps = [
+      { label: 'Mengenkripsi file…', step: 1 },
+      { label: 'Upload ke IPFS…',    step: 2 },
+      { label: 'Mengirim permintaan verifikasi ke dokter…', step: 3 },
+    ];
+
+    try {
+      for (const s of steps) {
+        document.getElementById(`step-${s.step}`)?.classList.add('active');
+        if (s.step > 1) document.getElementById(`line-${s.step-1}`)?.classList.add('done');
+        const t = UI.Toast.loading(s.label, '');
+        await new Promise(r => setTimeout(r, 1000 + Math.random()*800));
+        UI.Toast.dismiss(t);
+        document.getElementById(`step-${s.step}`)?.classList.remove('active');
+        document.getElementById(`step-${s.step}`)?.classList.add('done');
+      }
+      document.getElementById('line-2')?.classList.add('done');
+
+      const ipfsHash = 'Qm' + [...Array(44)].map(() => 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'[Math.random()*62|0]).join('');
+
+      // Catatan: belum ada txHash karena belum ada transaksi smart contract.
+      // Entri ini hanya tercatat lokal (IPFS) sampai dokter memverifikasi via addMedicalRecord().
+      const doctorWallet = document.getElementById('upload-doctor').value.trim();
+      const docDate    = document.getElementById('upload-date').value;
+      const docType    = document.getElementById('upload-type').value;
+      const noteVal    = document.getElementById('upload-note').value.trim();
+
+      MockData.records.unshift({
+        id: 'rec_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+        date: docDate ? UI.formatTime(new Date(docDate)).split(',')[0] : 'Baru saja',
+        doctor: doctorWallet,
+        doctorWallet: doctorWallet,
+        hospital: '(menunggu verifikasi)',
+        diagnosis: `${docType || 'Dokumen'} — menunggu peninjauan dokter`,
+        note: noteVal,
+        patientAddress: localStorage.getItem('mc_account') || null,
+        ipfsHash,
+        txHash: null,
+        status: 'pending',
+      });
+      Store.save();
+      PatientApp.renderRecords();
+
+      UI.Toast.success('Dokumen Terkirim!', `IPFS: ${ipfsHash.slice(0,14)}… — menunggu verifikasi dokter`);
+      e.target.reset();
+      document.getElementById('file-name').style.display = 'none';
+      ['step-1','step-2','step-3'].forEach(id => {
+        document.getElementById(id)?.classList.remove('done','active');
+      });
+      document.getElementById('step-1')?.classList.add('active');
+      ['line-1','line-2'].forEach(id => document.getElementById(id)?.classList.remove('done'));
+    } catch (err) {
+      UI.Toast.error('Upload Gagal', err.message);
+    } finally { restore(); }
+  });
+</script>
+</body>
+</html>

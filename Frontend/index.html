@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedChain — Rekam Medis Berbasis Blockchain</title>
+  <meta name="description" content="Platform rekam medis terdesentralisasi yang aman, transparan, dan terjamin privasi pasien." />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ── Toast Container ── -->
+<div id="toast-container"></div>
+
+<!-- ── Navbar ── -->
+<nav class="lp-navbar">
+  <a href="index.html" class="lp-logo">
+    <div class="lp-logo-icon"><i class="fas fa-link"></i></div>
+    <span class="lp-logo-text">Med<span>Chain</span></span>
+  </a>
+
+  <ul class="lp-nav-links">
+    <li><a href="#features">Fitur</a></li>
+    <li><a href="#how-it-works">Cara Kerja</a></li>
+    <li><a href="#stats">Statistik</a></li>
+  </ul>
+
+  <div class="lp-nav-cta">
+    <button class="btn btn-outline" style="color:rgba(255,255,255,.65);border-color:rgba(255,255,255,.15)"
+      data-open-modal="modal-connect">Masuk</button>
+    <button class="btn btn-primary" data-open-modal="modal-connect">
+      <i class="fas fa-rocket"></i> Mulai Sekarang
+    </button>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="lp-hero">
+  <div class="lp-hero-bg-grid"></div>
+  <div class="lp-hero-bg-glow"></div>
+
+  <div class="lp-hero-content">
+    <div class="lp-hero-badge">
+      <span class="dot"></span>
+      Sepolia Testnet · Ethers.js v6 · IPFS Ready
+    </div>
+
+    <h1 class="lp-hero-title">
+      Rekam Medis yang<br>
+      <span>Aman, Transparan,</span><br>
+      Milik Anda
+    </h1>
+
+    <p class="lp-hero-sub">
+      MedChain menyimpan rekam medis pasien di blockchain—tidak bisa diubah, hanya bisa diakses dengan izin eksplisit dari pemilik data.
+    </p>
+
+    <div class="lp-hero-actions">
+      <button class="btn btn-xl btn-primary" data-open-modal="modal-connect">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" style="width:20px;height:20px" alt="MM" />
+        Hubungkan MetaMask
+      </button>
+      <a href="#how-it-works" class="btn btn-xl btn-outline" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.15)">
+        <i class="fas fa-play-circle"></i> Lihat Demo
+      </a>
+    </div>
+
+    <!-- Hero Cards floating -->
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:48px;flex-wrap:wrap">
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px)">
+        <i class="fas fa-shield-alt" style="color:var(--color-cyan)"></i>
+        <span style="color:rgba(255,255,255,.75);font-size:0.875rem">Data Terenkripsi</span>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px)">
+        <i class="fas fa-cubes" style="color:var(--color-cyan)"></i>
+        <span style="color:rgba(255,255,255,.75);font-size:0.875rem">Immutable Blockchain</span>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;backdrop-filter:blur(8px)">
+        <i class="fas fa-user-lock" style="color:var(--color-cyan)"></i>
+        <span style="color:rgba(255,255,255,.75);font-size:0.875rem">Kontrol Penuh Pasien</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ── -->
+<section id="features">
+  <div class="lp-section">
+    <div style="max-width:560px">
+      <p class="lp-section-label">Fitur Unggulan</p>
+      <h2 class="lp-section-title">Keamanan di setiap lapisan rekam medis</h2>
+      <p class="lp-section-sub">Dirancang untuk memenuhi standar privasi medis dengan teknologi blockchain yang sudah terbukti.</p>
+    </div>
+
+    <div class="lp-features-grid">
+      <div class="lp-feature-card">
+        <div class="lp-feature-icon" style="background:var(--color-cyan-light);color:var(--color-cyan)"><i class="fas fa-lock"></i></div>
+        <h3>Enkripsi End-to-End</h3>
+        <p>Dokumen dienkripsi sebelum diunggah ke IPFS. Hanya dompet yang diberi izin yang dapat mendekripsi dan membaca data.</p>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature-icon" style="background:var(--color-green-light);color:var(--color-green)"><i class="fas fa-key"></i></div>
+        <h3>Kontrol Akses Granular</h3>
+        <p>Pasien memberikan dan mencabut akses ke dokter atau rumah sakit mana pun kapan saja, langsung dari dompet mereka.</p>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature-icon" style="background:var(--color-purple-light);color:var(--color-purple)"><i class="fas fa-history"></i></div>
+        <h3>Audit Trail Immutable</h3>
+        <p>Setiap akses dan perubahan dicatat di blockchain. Riwayat akses lengkap, tidak dapat dihapus atau dimanipulasi.</p>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature-icon" style="background:var(--color-amber-light);color:var(--color-amber)"><i class="fas fa-network-wired"></i></div>
+        <h3>Desentralisasi Penuh</h3>
+        <p>Tidak ada single point of failure. Data tersebar di jaringan blockchain dan IPFS, tahan terhadap sensor dan downtime.</p>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature-icon" style="background:var(--color-cyan-light);color:var(--color-cyan-dark)"><i class="fas fa-file-signature"></i></div>
+        <h3>Tanda Tangan Digital</h3>
+        <p>Setiap rekam medis ditandatangani secara kriptografis oleh dokter penerbit, memastikan keaslian dokumen.</p>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature-icon" style="background:var(--color-green-light);color:var(--color-teal)"><i class="fas fa-plug"></i></div>
+        <h3>Integrasi FHIR-Ready</h3>
+        <p>Struktur data mengikuti standar HL7 FHIR, memudahkan integrasi dengan sistem rumah sakit yang sudah ada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats ── -->
+<section id="stats" class="lp-stats">
+  <div class="lp-stats-inner">
+    <div>
+      <div class="lp-stat-num"><span id="counter-patients">0</span><span>+</span></div>
+      <div class="lp-stat-label">Pasien Terdaftar</div>
+    </div>
+    <div>
+      <div class="lp-stat-num"><span id="counter-doctors">0</span></div>
+      <div class="lp-stat-label">Tenaga Medis</div>
+    </div>
+    <div>
+      <div class="lp-stat-num"><span id="counter-records">0</span><span>+</span></div>
+      <div class="lp-stat-label">Rekam Medis di Blockchain</div>
+    </div>
+    <div>
+      <div class="lp-stat-num"><span id="counter-uptime">0</span><span>%</span></div>
+      <div class="lp-stat-label">Uptime Jaringan</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── How it Works ── -->
+<section id="how-it-works">
+  <div class="lp-section" style="text-align:center">
+    <p class="lp-section-label">Cara Kerja</p>
+    <h2 class="lp-section-title">Sederhana bagi pasien, kuat di balik layar</h2>
+    <p class="lp-section-sub" style="margin:0 auto">Empat langkah mudah dari pendaftaran hingga rekam medis tersimpan aman selamanya.</p>
+
+    <div class="lp-how-grid">
+      <div class="lp-how-step">
+        <div class="lp-how-step-num">1</div>
+        <h4>Daftar dengan Wallet</h4>
+        <p>Hubungkan MetaMask. Identitas Anda adalah alamat dompet—tidak ada username atau password.</p>
+      </div>
+      <div class="lp-how-step">
+        <div class="lp-how-step-num">2</div>
+        <h4>Beri Akses ke Dokter</h4>
+        <p>Dari dashboard, pilih dokter atau RS mana yang boleh membaca rekam medis Anda.</p>
+      </div>
+      <div class="lp-how-step">
+        <div class="lp-how-step-num">3</div>
+        <h4>Dokter Tambah Rekam</h4>
+        <p>Dokter mengunggah dokumen yang dienkripsi ke IPFS, kemudian menyimpan hash-nya di smart contract.</p>
+      </div>
+      <div class="lp-how-step">
+        <div class="lp-how-step-num">4</div>
+        <h4>Verifikasi Selamanya</h4>
+        <p>Rekam medis tercatat permanen di blockchain dan dapat diverifikasi siapa pun kapan pun.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Role Cards ── -->
+<section style="background:var(--color-navy);padding:80px 32px">
+  <div style="max-width:1100px;margin:0 auto;text-align:center">
+    <p class="lp-section-label" style="color:var(--color-cyan)">Untuk Siapa?</p>
+    <h2 style="font-size:clamp(1.5rem,3vw,2rem);color:white;letter-spacing:-0.025em;margin-bottom:40px">
+      Satu platform untuk semua aktor kesehatan
+    </h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px">
+      <!-- Patient -->
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:28px;text-align:left;transition:var(--transition)" class="role-card">
+        <div style="width:48px;height:48px;background:var(--color-cyan-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--color-cyan);margin-bottom:16px"><i class="fas fa-user"></i></div>
+        <h3 style="color:white;margin-bottom:8px">Pasien</h3>
+        <p style="font-size:0.875rem;color:rgba(255,255,255,.45);line-height:1.6">Lihat rekam medis, kendalikan siapa yang dapat mengaksesnya, dan verifikasi keaslian dokumen.</p>
+        <button class="btn btn-sm btn-outline" style="margin-top:16px;color:var(--color-cyan);border-color:rgba(6,182,212,.3)" data-open-modal="modal-connect" onclick="document.getElementById('role-select').value='patient'">
+          Masuk sebagai Pasien
+        </button>
+      </div>
+      <!-- Doctor -->
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:28px;text-align:left;transition:var(--transition)" class="role-card">
+        <div style="width:48px;height:48px;background:var(--color-green-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--color-green);margin-bottom:16px"><i class="fas fa-user-md"></i></div>
+        <h3 style="color:white;margin-bottom:8px">Dokter / Nakes</h3>
+        <p style="font-size:0.875rem;color:rgba(255,255,255,.45);line-height:1.6">Cari pasien berdasarkan alamat wallet, tambahkan rekam medis baru, dan tandatangani secara digital.</p>
+        <button class="btn btn-sm btn-outline" style="margin-top:16px;color:var(--color-green);border-color:rgba(16,185,129,.3)" data-open-modal="modal-connect" onclick="document.getElementById('role-select').value='doctor'">
+          Masuk sebagai Dokter
+        </button>
+      </div>
+      <!-- Admin -->
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:28px;text-align:left;transition:var(--transition)" class="role-card">
+        <div style="width:48px;height:48px;background:var(--color-purple-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--color-purple);margin-bottom:16px"><i class="fas fa-cogs"></i></div>
+        <h3 style="color:white;margin-bottom:8px">Administrator</h3>
+        <p style="font-size:0.875rem;color:rgba(255,255,255,.45);line-height:1.6">Monitor sistem, daftarkan entitas medis, dan pantau semua aktivitas di jaringan MedChain.</p>
+        <button class="btn btn-sm btn-outline" style="margin-top:16px;color:var(--color-purple);border-color:rgba(139,92,246,.3)" data-open-modal="modal-connect" onclick="document.getElementById('role-select').value='admin'">
+          Masuk sebagai Admin
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="lp-cta">
+  <h2>Siap mengamankan rekam medis Anda?</h2>
+  <p>Hubungkan wallet dan mulai dalam 30 detik. Tidak perlu akun, tidak perlu password.</p>
+  <button class="btn btn-xl" style="background:white;color:var(--color-cyan-dark);border:none;font-weight:700" data-open-modal="modal-connect">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" style="width:22px;height:22px" alt="MM" />
+    Hubungkan MetaMask Sekarang
+  </button>
+</section>
+
+<!-- ── Footer ── -->
+<footer class="lp-footer">
+  <div>
+    <a href="index.html" class="lp-logo" style="margin-bottom:8px">
+      <div class="lp-logo-icon" style="width:28px;height:28px;font-size:13px"><i class="fas fa-link"></i></div>
+      <span class="lp-logo-text" style="font-size:0.9375rem">Med<span>Chain</span></span>
+    </a>
+    <p>&copy; 2026 MedChain Prototype. Dibangun dengan HTML, CSS & Vanilla JS.</p>
+  </div>
+  <div class="lp-footer-links">
+    <a href="#">Dokumentasi</a>
+    <a href="https://sepolia.etherscan.io" target="_blank">Etherscan</a>
+    <a href="#">GitHub</a>
+  </div>
+</footer>
+
+<!-- ── Connect Modal ── -->
+<div id="modal-connect" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h2>Masuk ke MedChain</h2>
+        <p>Pilih peran Anda dan hubungkan dompet</p>
+      </div>
+      <button class="modal-close" data-close-modal><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- MetaMask status -->
+    <div id="mm-status" style="display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:20px">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" style="width:22px;height:22px" alt="MetaMask" />
+      <div id="mm-status-text" style="font-size:0.8125rem;font-weight:500;color:var(--color-navy-700)">Memeriksa MetaMask…</div>
+    </div>
+
+    <form id="form-connect">
+      <div class="form-group">
+        <label class="form-label" for="role-select">Peran Anda<span class="required">*</span></label>
+        <select id="role-select" class="form-control" required>
+          <option value="patient">🏥 Pasien</option>
+          <option value="doctor">🩺 Dokter / Nakes</option>
+          <option value="admin">⚙️ Administrator</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-dark w-full btn-lg" style="width:100%;justify-content:center;margin-top:4px">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" style="width:18px;height:18px" alt="" />
+        Hubungkan & Masuk
+      </button>
+    </form>
+
+    <p style="font-size:0.75rem;color:var(--color-navy-400);text-align:center;margin-top:14px">
+      Dengan masuk, Anda menyetujui bahwa data disimpan di blockchain bersifat publik dan permanen.
+    </p>
+  </div>
+</div>
+
+<!-- ── Scripts ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js" crossorigin="anonymous"></script>
+<script src="js/config.js"></script>
+<script src="js/wallet.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // Check MetaMask in modal
+  window.addEventListener('DOMContentLoaded', () => {
+    const statusEl = document.getElementById('mm-status-text');
+    if (statusEl) {
+      if (Wallet.isMetaMaskInstalled()) {
+        statusEl.innerHTML = '<span style="color:var(--color-green)"><i class="fas fa-check-circle"></i> MetaMask terdeteksi — siap terhubung</span>';
+      } else {
+        statusEl.innerHTML = '<span style="color:var(--color-amber)"><i class="fas fa-exclamation-triangle"></i> MetaMask tidak terdeteksi — akan menggunakan mode demo</span>';
+      }
+    }
+  });
+</script>
+</body>
+</html>

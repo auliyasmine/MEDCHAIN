@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Dokter — MedChain</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="app-shell">
+
+<div id="toast-container"></div>
+
+<!-- ── Topbar ── -->
+<header class="topbar">
+  <button class="sidebar-toggle" onclick="UI.toggleSidebar()"><i class="fas fa-bars"></i></button>
+  <a href="index.html" class="topbar-logo">
+    <div class="icon"><i class="fas fa-link"></i></div>
+    <span class="name">Med<span>Chain</span></span>
+  </a>
+  <div class="topbar-divider"></div>
+  <span class="topbar-page-title">Dashboard Dokter</span>
+  <div class="topbar-spacer"></div>
+  <div class="topbar-right">
+    <div class="network-badge">
+      <span class="dot"></span>
+      <span class="network-badge-text">Sepolia</span>
+    </div>
+    <button class="icon-btn" onclick="UI.Toast.info('Notifikasi','Tidak ada notifikasi baru')">
+      <i class="fas fa-bell"></i>
+    </button>
+    <div class="wallet-pill" data-action="copy-address">
+      <div class="avatar"></div>
+      <span class="addr wallet-addr-display">0x0000…0000</span>
+    </div>
+  </div>
+</header>
+
+<div class="sidebar-overlay" onclick="UI.closeSidebar()"></div>
+
+<!-- ── Sidebar ── -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Menu Utama</div>
+    <a class="sidebar-item active" data-view="search" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-search"></i></span>
+      Cari Pasien
+    </a>
+    <a class="sidebar-item" data-view="patients" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-users"></i></span>
+      Daftar Pasien
+      <span class="sidebar-badge cyan">3</span>
+    </a>
+    <a class="sidebar-item" data-view="add-record" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-plus-circle"></i></span>
+      Tambah Rekam
+    </a>
+    <a class="sidebar-item" data-view="verify" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-clipboard-check"></i></span>
+      Permintaan Verifikasi
+      <span class="sidebar-badge red" id="badge-pending-doctor" style="display:none">0</span>
+    </a>
+    <a class="sidebar-item" data-view="activity" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-history"></i></span>
+      Log Aktivitas
+    </a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Navigasi</div>
+    <a class="sidebar-item" href="index.html">
+      <span class="sidebar-item-icon"><i class="fas fa-home"></i></span>
+      Landing Page
+    </a>
+  </div>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="avatar" style="background:linear-gradient(135deg,var(--color-green),var(--color-teal))">
+        <span>D</span>
+      </div>
+      <div class="info">
+        <div class="name" id="sidebar-name">0x0000…0000</div>
+        <div class="role" id="sidebar-role">Dokter</div>
+      </div>
+      <i class="fas fa-sign-out-alt logout-btn" data-action="disconnect" style="cursor:pointer"></i>
+    </div>
+  </div>
+</aside>
+
+<!-- ── Main ── -->
+<main class="main-content">
+
+  <!-- ═══ VIEW: SEARCH ═══ -->
+  <div id="view-search" class="view active">
+    <div style="max-width:700px">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="icon" style="background:var(--color-cyan-light);color:var(--color-cyan)"><i class="fas fa-search"></i></div>
+            Cari Pasien di Blockchain
+          </div>
+        </div>
+        <p style="font-size:0.875rem;color:var(--color-navy-400);margin-bottom:18px">
+          Masukkan alamat Ethereum pasien untuk memeriksa apakah Anda memiliki izin akses rekam medisnya.
+        </p>
+        <form id="form-search">
+          <div class="form-group">
+            <label class="form-label" for="search-address">Alamat Wallet Pasien<span class="required">*</span></label>
+            <div class="input-group">
+              <input type="text" id="search-address" class="form-control mono" placeholder="0x4B21c3d8F9…" required />
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Cari
+              </button>
+            </div>
+            <div class="form-hint">Smart contract akan memverifikasi izin akses secara on-chain.</div>
+          </div>
+        </form>
+
+        <div id="search-result"></div>
+
+        <!-- Recently accessed -->
+        <hr class="divider" />
+        <div style="font-size:0.8125rem;font-weight:600;color:var(--color-navy-700);margin-bottom:10px">
+          <i class="fas fa-clock" style="color:var(--color-navy-300);margin-right:6px"></i>Terakhir Diakses
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--color-bg);border-radius:var(--radius-md);cursor:pointer" onclick="document.getElementById('search-address').value='0x7E1A...BB23';DoctorApp.searchPatient('0x7E1A...BB23')">
+            <div>
+              <div style="font-size:0.875rem;font-weight:500">Siti Rahayu</div>
+              <div class="mono text-xs text-muted">0x7E1A…BB23</div>
+            </div>
+            <span class="badge badge-green">Akses Aktif</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--color-bg);border-radius:var(--radius-md);cursor:pointer" onclick="document.getElementById('search-address').value='0x3CB5...44A1';DoctorApp.searchPatient('0x3CB5...44A1')">
+            <div>
+              <div style="font-size:0.875rem;font-weight:500">Budi Santoso</div>
+              <div class="mono text-xs text-muted">0x3CB5…44A1</div>
+            </div>
+            <span class="badge badge-green">Akses Aktif</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VIEW: PATIENTS ═══ -->
+  <div id="view-patients" class="view">
+    <div class="card">
+      
+  <!-- Stats -->
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-card-top">
+        <div>
+          <div class="stat-card-value">3</div>
+          <div class="stat-card-label">Pasien Aktif</div>
+        </div>
+        <div class="stat-card-icon" style="background:var(--color-cyan-light);color:var(--color-cyan)">
+          <i class="fas fa-users"></i>
+        </div>
+      </div>
+      <div class="stat-card-change up"><i class="fas fa-arrow-up"></i> +1 bulan ini</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-top">
+        <div>
+          <div class="stat-card-value">7</div>
+          <div class="stat-card-label">Rekam Ditambahkan</div>
+        </div>
+        <div class="stat-card-icon" style="background:var(--color-green-light);color:var(--color-green)">
+          <i class="fas fa-file-medical"></i>
+        </div>
+      </div>
+      <div class="stat-card-change up"><i class="fas fa-arrow-up"></i> +3 minggu ini</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-top">
+        <div>
+          <div class="stat-card-value">12</div>
+          <div class="stat-card-label">Tx Bulan Ini</div>
+        </div>
+        <div class="stat-card-icon" style="background:var(--color-purple-light);color:var(--color-purple)">
+          <i class="fas fa-exchange-alt"></i>
+        </div>
+      </div>
+      <div class="stat-card-change up"><i class="fas fa-check"></i> Semua valid</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-top">
+        <div>
+          <div class="stat-card-value">0</div>
+          <div class="stat-card-label">Akses Ditolak</div>
+        </div>
+        <div class="stat-card-icon" style="background:var(--color-amber-light);color:var(--color-amber)">
+          <i class="fas fa-ban"></i>
+        </div>
+      </div>
+      <div class="stat-card-change up"><i class="fas fa-thumbs-up"></i> Semua diizinkan</div>
+    </div>
+  </div>
+      <div class="card-header">
+        <div class="card-title">
+          <div class="icon" style="background:var(--color-green-light);color:var(--color-green)"><i class="fas fa-users"></i></div>
+          Daftar Pasien Saya
+        </div>
+        <button class="btn btn-sm btn-outline" onclick="UI.Toast.info('Refresh','Data diperbarui dari blockchain')">
+          <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+      </div>
+      <div class="table-wrapper">
+        <table class="mc-table">
+          <thead>
+            <tr>
+              <th>Pasien</th>
+              <th>Usia</th>
+              <th>Kunjungan Terakhir</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="patients-tbody">
+            <tr><td colspan="5" style="text-align:center;padding:32px;color:var(--color-navy-400)">
+              <i class="fas fa-spinner" style="animation:spin 1s linear infinite"></i> Memuat…
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VIEW: ADD RECORD ═══ -->
+  <div id="view-add-record" class="view">
+    <div style="max-width:680px">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="icon" style="background:var(--color-cyan-light);color:var(--color-cyan)"><i class="fas fa-file-medical-alt"></i></div>
+            Tambah Rekam Medis Pasien
+          </div>
+        </div>
+        <div style="background:var(--color-cyan-light);border:1px solid rgba(6,182,212,.15);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:20px;font-size:0.8125rem;color:var(--color-cyan-dark)">
+          <i class="fas fa-info-circle"></i> Rekam medis akan dienkripsi dan disimpan di IPFS. Hash IPFS dicatat di smart contract MedChain.
+        </div>
+        <form id="form-add-record">
+          <div class="form-group">
+            <label class="form-label" for="rec-patient-addr">Alamat Wallet Pasien<span class="required">*</span></label>
+            <input type="text" id="rec-patient-addr" class="form-control mono" placeholder="0x…" required />
+            <div class="form-hint">Smart contract akan memverifikasi izin akses sebelum menyimpan.</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="rec-type">Jenis Rekam<span class="required">*</span></label>
+              <select id="rec-type" class="form-control" required>
+                <option value="">— Pilih —</option>
+                <option>Pemeriksaan Umum</option>
+                <option>Konsultasi Spesialis</option>
+                <option>Hasil Lab</option>
+                <option>Radiologi</option>
+                <option>Tindakan Operasi</option>
+                <option>Rawat Inap</option>
+                <option>Resep</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="rec-date">Tanggal Pemeriksaan<span class="required">*</span></label>
+              <input type="date" id="rec-date" class="form-control" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="rec-diagnosis">Diagnosis<span class="required">*</span></label>
+            <input type="text" id="rec-diagnosis" class="form-control" placeholder="Kode ICD-10 atau deskripsi diagnosis" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="rec-notes">Catatan Klinis</label>
+            <textarea id="rec-notes" class="form-control" rows="4" placeholder="Anamnesis, pemeriksaan fisik, rencana terapi…"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="rec-bp">Tekanan Darah</label>
+              <input type="text" id="rec-bp" class="form-control" placeholder="120/80 mmHg" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="rec-temp">Suhu Tubuh</label>
+              <input type="text" id="rec-temp" class="form-control" placeholder="36.5 °C" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Lampiran Dokumen</label>
+            <input type="file" id="rec-document" class="form-control-file" accept=".pdf,.jpg,.png" />
+            <div class="form-hint">PDF, JPG, PNG — maks 50 MB. Akan dienkripsi sebelum upload.</div>
+          </div>
+
+          <hr class="divider" />
+          <div style="background:var(--color-amber-light);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:16px;font-size:0.8125rem;color:#92400e">
+            <i class="fas fa-pen-fancy"></i> <strong>Tanda Tangan Digital</strong> — Rekam ini akan ditandatangani menggunakan kunci privat wallet Anda.
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">
+            <i class="fas fa-signature"></i> Tandatangani & Simpan di Blockchain
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VIEW: VERIFY (permintaan dari pasien) ═══ -->
+  <div id="view-verify" class="view">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="icon" style="background:var(--color-amber-light);color:var(--color-amber)"><i class="fas fa-clipboard-check"></i></div>
+          Permintaan Verifikasi dari Pasien
+        </div>
+      </div>
+      <p style="font-size:0.875rem;color:var(--color-navy-400);margin-bottom:18px">
+        Dokumen di bawah ini diunggah langsung oleh pasien dan menunggu Anda tinjau sebelum dicatat resmi
+        ke blockchain melalui <code class="mono">addMedicalRecord()</code>.
+      </p>
+      <div class="table-wrapper">
+        <table class="mc-table">
+          <thead>
+            <tr>
+              <th>Wallet Pasien</th>
+              <th>Jenis Dokumen</th>
+              <th>Catatan Pasien</th>
+              <th>IPFS</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="pending-tbody">
+            <tr><td colspan="5" style="text-align:center;padding:32px;color:var(--color-navy-400)">
+              <i class="fas fa-spinner" style="animation:spin 1s linear infinite"></i> Memuat…
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VIEW: ACTIVITY ═══ -->
+  <div id="view-activity" class="view">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="icon" style="background:var(--color-amber-light);color:var(--color-amber)"><i class="fas fa-history"></i></div>
+          Log Aktivitas
+        </div>
+      </div>
+      <ul class="activity-list" id="access-logs"></ul>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── Verify Record Modal ── -->
+<div id="modal-verify" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h2>Verifikasi & Catat ke Blockchain</h2>
+        <p>Tinjau dokumen pasien, lalu masukkan diagnosis resmi Anda sebelum dicatat on-chain.</p>
+      </div>
+      <button class="modal-close" data-close-modal><i class="fas fa-times"></i></button>
+    </div>
+    <form id="form-verify">
+      <input type="hidden" id="verify-record-id" />
+      <div class="form-group">
+        <label class="form-label">Wallet Pasien</label>
+        <input type="text" id="verify-patient-display" class="form-control mono" disabled />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Dokumen Pasien (IPFS)</label>
+        <input type="text" id="verify-ipfs-display" class="form-control mono" disabled />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="verify-diagnosis">Diagnosis Resmi<span class="required">*</span></label>
+        <input type="text" id="verify-diagnosis" class="form-control" placeholder="Kode ICD-10 atau deskripsi diagnosis" required />
+        <div class="form-hint">Diagnosis ini akan dicatat sebagai milik Anda (dokter) melalui <code class="mono">addMedicalRecord()</code>, bukan diagnosis self-report dari pasien.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="verify-hospital">Fasilitas Kesehatan</label>
+        <input type="text" id="verify-hospital" class="form-control" placeholder="RS / Klinik Anda" />
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">
+        <i class="fas fa-signature"></i> Tandatangani & Verifikasi
+      </button>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js" crossorigin="anonymous"></script>
+<script src="js/config.js"></script>
+<script src="js/wallet.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
