@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Admin — MedChain</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="app-shell">
+
+<div id="toast-container"></div>
+
+<!-- ── Topbar ── -->
+<header class="topbar">
+  <button class="sidebar-toggle" onclick="UI.toggleSidebar()"><i class="fas fa-bars"></i></button>
+  <a href="index.html" class="topbar-logo">
+    <div class="icon"><i class="fas fa-link"></i></div>
+    <span class="name">Med<span>Chain</span></span>
+  </a>
+  <div class="topbar-divider"></div>
+  <span class="topbar-page-title">Admin Panel</span>
+  <div class="topbar-spacer"></div>
+  <div class="topbar-right">
+    <div class="network-badge">
+      <span class="dot"></span>
+      <span class="network-badge-text">Sepolia</span>
+    </div>
+    <button class="icon-btn" onclick="UI.Toast.info('Sistem','Semua node berjalan normal')">
+      <i class="fas fa-server"></i>
+    </button>
+    <button class="icon-btn" onclick="UI.Toast.info('Notifikasi','5 entitas menunggu verifikasi')">
+      <i class="fas fa-bell"></i>
+      <span class="badge-dot"></span>
+    </button>
+    <div class="wallet-pill" data-action="copy-address">
+      <div class="avatar" style="background:linear-gradient(135deg,var(--color-purple),var(--color-cyan))"></div>
+      <span class="addr wallet-addr-display">0x0000…0000</span>
+    </div>
+  </div>
+</header>
+
+<div class="sidebar-overlay" onclick="UI.closeSidebar()"></div>
+
+<!-- ── Sidebar ── -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Monitoring</div>
+    <a class="sidebar-item active" data-view="monitor" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-tachometer-alt"></i></span>
+      Overview
+    </a>
+    <a class="sidebar-item" data-view="entities" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-sitemap"></i></span>
+      Entitas Terdaftar
+    </a>
+    <a class="sidebar-item" data-view="transactions" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-exchange-alt"></i></span>
+      Transaksi Jaringan
+    </a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Manajemen</div>
+    <a class="sidebar-item" data-view="register" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-user-plus"></i></span>
+      Registrasi Entitas
+      <span class="sidebar-badge red">5</span>
+    </a>
+    <a class="sidebar-item" data-view="contract" href="#" onclick="event.preventDefault()">
+      <span class="sidebar-item-icon"><i class="fas fa-file-contract"></i></span>
+      Smart Contract
+    </a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Navigasi</div>
+    <a class="sidebar-item" href="index.html">
+      <span class="sidebar-item-icon"><i class="fas fa-home"></i></span>
+      Landing Page
+    </a>
+  </div>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="avatar" style="background:linear-gradient(135deg,var(--color-purple),var(--color-navy))">
+        <span>A</span>
+      </div>
+      <div class="info">
+        <div class="name" id="sidebar-name">0x0000…0000</div>
+        <div class="role" id="sidebar-role">Administrator</div>
+      </div>
+      <i class="fas fa-sign-out-alt logout-btn" data-action="disconnect" style="cursor:pointer"></i>
+    </div>
+  </div>
+</aside>
+
+<!-- ── Main ── -->
+<main class="main-content">
+
+  <!-- ═══ VIEW: MONITOR ═══ -->
+  <div id="view-monitor" class="view active">
+
+    <!-- Stat Cards -->
+    <div class="stat-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+      <div class="stat-card">
+        <div class="stat-card-top">
+          <div>
+            <div class="stat-card-value" id="stat-patients">—</div>
+            <div class="stat-card-label">Total Pasien</div>
+          </div>
+          <div class="stat-card-icon" style="background:var(--color-cyan-light);color:var(--color-cyan)">
+            <i class="fas fa-users"></i>
+          </div>
+        </div>
+        <div class="stat-card-change up"><i class="fas fa-arrow-up"></i> +23 minggu ini</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-top">
+          <div>
+            <div class="stat-card-value" id="stat-doctors">—</div>
+            <div class="stat-card-label">Tenaga Medis</div>
+          </div>
+          <div class="stat-card-icon" style="background:var(--color-green-light);color:var(--color-green)">
+            <i class="fas fa-user-md"></i>
+          </div>
+        </div>
+        <div class="stat-card-change up"><i class="fas fa-arrow-up"></i> +4 bulan ini</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-top">
+          <div>
+            <div class="stat-card-value" id="stat-records">—</div>
+            <div class="stat-card-label">Rekam Medis</div>
+          </div>
+          <div class="stat-card-icon" style="background:var(--color-purple-light);color:var(--color-purple)">
+            <i class="fas fa-file-medical"></i>
+          </div>
+        </div>
+        <div class="stat-card-change up"><i class="fas fa-arrow-up"></i> +142 minggu ini</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-top">
+          <div>
+            <div class="stat-card-value" id="stat-transactions">—</div>
+            <div class="stat-card-label">Total Transaksi</div>
+          </div>
+          <div class="stat-card-icon" style="background:var(--color-amber-light);color:var(--color-amber)">
+            <i class="fas fa-exchange-alt"></i>
+          </div>
+        </div>
+        <div class="stat-card-change up"><i class="fas fa-bolt"></i> +89 hari ini</div>
+      </div>
+    </div>
+
+    <!-- System Health + Activity -->
+    <div class="grid-2">
+      <!-- System Health -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="icon" style="background:var(--color-green-light);color:var(--color-green)"><i class="fas fa-heartbeat"></i></div>
+            Status Sistem
+          </div>
+          <span class="badge badge-green"><i class="fas fa-circle" style="font-size:8px"></i> Semua Normal</span>
+        </div>
+        <div>
+        <div class="ledger-row">
+          <span class="ledger-dot ok"></span>
+          <span class="ledger-label">Ethereum Sepolia Node</span>
+          <span class="ledger-value ok">Online</span>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-dot ok"></span>
+          <span class="ledger-label">IPFS Gateway</span>
+          <span class="ledger-value ok">Online</span>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-dot ok"></span>
+          <span class="ledger-label">Smart Contract</span>
+          <span class="ledger-value ok">Deployed</span>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-dot ok"></span>
+          <span class="ledger-label">Enkripsi AES-256</span>
+          <span class="ledger-value ok">Aktif</span>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-dot"></span>
+          <span class="ledger-label">Gas Price (Sepolia)</span>
+          <span class="ledger-value">~5 Gwei</span>
+        </div>
+        </div>
+      </div>
+
+      <!-- Activity -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="icon" style="background:var(--color-amber-light);color:var(--color-amber)"><i class="fas fa-bolt"></i></div>
+            Aktivitas Terbaru
+          </div>
+          <button class="btn btn-sm btn-outline" onclick="UI.Toast.info('Refresh','Data diperbarui dari blockchain')">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+        </div>
+        <ul class="activity-list" id="admin-activity"></ul>
+      </div>
+    </div>
+
+    <!-- Contract Info -->
+    <div class="card" style="margin-top:20px">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="icon" style="background:var(--color-navy-800);color:var(--color-cyan)"><i class="fas fa-file-contract"></i></div>
+          Informasi Smart Contract
+        </div>
+        <a href="https://sepolia.etherscan.io" target="_blank" class="btn btn-sm btn-outline">
+          <i class="fas fa-external-link-alt"></i> Etherscan
+        </a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px">
+        <div>
+          <div class="form-label" style="margin-bottom:4px">Contract Address</div>
+          <div style="font-family:var(--font-mono);font-size:0.8125rem;padding:9px 12px;background:var(--color-bg);border-radius:var(--radius-md);color:var(--color-navy-700)">
+            0x0000…0000 <span style="color:var(--color-navy-300)">(placeholder)</span>
+          </div>
+        </div>
+        <div>
+          <div class="form-label" style="margin-bottom:4px">Network</div>
+          <div style="font-family:var(--font-mono);font-size:0.8125rem;padding:9px 12px;background:var(--color-bg);border-radius:var(--radius-md);color:var(--color-navy-700)">
+            Ethereum Sepolia (ChainID: 11155111)
+          </div>
+        </div>
+        <div>
+          <div class="form-label" style="margin-bottom:4px">Compiler</div>
+          <div style="font-family:var(--font-mono);font-size:0.8125rem;padding:9px 12px;background:var(--color-bg);border-radius:var(--radius-md);color:var(--color-navy-700)">
+            Solidity ^0.8.24 + OpenZeppelin
+          </div>
+        </div>
+        <div>
+          <div class="form-label" style="margin-bottom:4px">Owner</div>
+          <div style="font-family:var(--font-mono);font-size:0.8125rem;padding:9px 12px;background:var(--color-bg);border-radius:var(--radius-md);color:var(--color-navy-700)" class="wallet-addr-display">
+            0x0000…0000
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VIEW: ENTITIES ═══ -->
+  <div id="view-entities" class="view">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="icon" style="background:var(--color-cyan-light);color:var(--color-cyan)"><i class="fas fa-sitemap"></i></div>
+          Entitas Terdaftar di Blockchain
+        </div>
+        <div style="display:flex;gap:8px">
+          <input type="text" class="form-control" placeholder="Cari entitas…" style="width:200px" oninput="AdminSearch.filter(this.value)" />
+          <button class="btn btn-sm btn-primary" onclick="UI.showView('register');document.querySelectorAll('[data-view]').forEach(i=>i.classList.toggle('active',i.dataset.view==='register'))">
+            <i class="fas fa-plus"></i> Daftar Baru
+          </button>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table class="mc-table">
+          <thead>
+            <tr>
+              <th>Alamat Wallet</th>
+              <th>Nama</th>
+              <th>Tipe</th>
+              <th>Didaftarkan</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="entities-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VIEW: TRANSACTIONS ═══ -->
+  <div id="view-transactions" class="view">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="icon" style="background:var(--color-purple-light);color:var(--color-purple)"><i class="fas fa-exchange-alt"></i></div>
+          Transaksi Jaringan (Simulasi)
+        </div>
+        <button class="btn btn-sm btn-outline" onclick="renderTxSim()">
+          <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+      </div>
+      <div class="table-wrapper">
+        <table class="mc-table">
+          <thead>
+            <tr>
+              <th>Tx Hash</th>
+              <th>Metode</th>
+              <th>From</th>
+              <th>Block</th>
+              <th>Waktu</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="tx-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VIEW: REGISTER ═══ -->
+  <div id="view-register" class="view">
+    <div class="grid-2">
+      <!-- Form Register -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="icon" style="background:var(--color-green-light);color:var(--color-green)"><i class="fas fa-user-plus"></i></div>
+            Daftarkan Entitas Baru
+          </div>
+        </div>
+        <p style="font-size:0.875rem;color:var(--color-navy-400);margin-bottom:18px">
+          Registrasi dokter, pasien, atau institusi medis ke dalam smart contract MedChain.
+        </p>
+        <form id="form-register">
+          <div class="form-group">
+            <label class="form-label" for="reg-type">Tipe Entitas<span class="required">*</span></label>
+            <select id="reg-type" class="form-control" required>
+              <option value="">— Pilih Tipe —</option>
+              <option value="0">Pasien</option>
+              <option value="1">Dokter</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-address">Alamat Wallet<span class="required">*</span></label>
+            <input type="text" id="reg-address" class="form-control mono" placeholder="0x…" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="reg-name">Nama Lengkap<span class="required">*</span></label>
+              <input type="text" id="reg-name" class="form-control" placeholder="Dr. Nama Lengkap" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-id">No. Identitas / NIK / SIP</label>
+              <input type="text" id="reg-id" class="form-control" placeholder="SIP/NIK/ID Institusi" />
+            </div>
+          </div>
+          <div class="form-group" id="reg-dob-group" style="display:none">
+            <label class="form-label" for="reg-dob">Tanggal Lahir (khusus Pasien)</label>
+            <input type="date" id="reg-dob" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-institution">Institusi / Afiliasi</label>
+            <input type="text" id="reg-institution" class="form-control" placeholder="Nama rumah sakit atau klinik" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-notes">Catatan Admin</label>
+            <textarea id="reg-notes" class="form-control" rows="2" placeholder="Keterangan tambahan…"></textarea>
+          </div>
+          <div style="background:var(--color-amber-light);border-radius:var(--radius-md);padding:12px;font-size:0.8125rem;color:#92400e;margin-bottom:16px">
+            <i class="fas fa-exclamation-triangle"></i> Registrasi akan memangkas transaksi di blockchain Sepolia. Tidak dapat dibatalkan setelah dikonfirmasi.
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">
+            <i class="fas fa-signature"></i> Tandatangani & Daftarkan ke Blockchain
+          </button>
+        </form>
+      </div>
+
+      <!-- Pending Queue -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="icon" style="background:var(--color-amber-light);color:var(--color-amber)"><i class="fas fa-clock"></i></div>
+            Antrian Registrasi
+          </div>
+          <span class="badge badge-red">5 Pending</span>
+        </div>
+        <p style="font-size:0.875rem;color:var(--color-navy-400);margin-bottom:16px">
+          Entitas yang menunggu verifikasi dan registrasi admin.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="border:1px solid var(--color-border);border-radius:var(--radius-md);padding:12px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+              <div>
+                <div style="font-weight:600;font-size:0.875rem">Dr. Ahmad Fauzi</div>
+                <div class="mono text-xs text-muted">0xAB12…CD34</div>
+              </div>
+              <span class="badge badge-amber">Dokter</span>
+            </div>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-success-outline btn-sm" onclick="AdminApp.approveEntity('Dr. Ahmad Fauzi', this)"><i class="fas fa-check"></i> Approve</button>
+              <button class="btn btn-danger btn-sm"><i class="fas fa-times"></i> Tolak</button>
+            </div>
+          </div>
+          <div style="border:1px solid var(--color-border);border-radius:var(--radius-md);padding:12px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+              <div>
+                <div style="font-weight:600;font-size:0.875rem">RS Harapan Bunda</div>
+                <div class="mono text-xs text-muted">0xEF56…GH78</div>
+              </div>
+              <span class="badge badge-purple">Rumah Sakit</span>
+            </div>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-success-outline btn-sm" onclick="AdminApp.approveEntity('RS Harapan Bunda', this)"><i class="fas fa-check"></i> Approve</button>
+              <button class="btn btn-danger btn-sm"><i class="fas fa-times"></i> Tolak</button>
+            </div>
+          </div>
+          <div style="border:1px solid var(--color-border);border-radius:var(--radius-md);padding:12px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+              <div>
+                <div style="font-weight:600;font-size:0.875rem">Yanti Kusuma</div>
+                <div class="mono text-xs text-muted">0x1234…5678</div>
+              </div>
+              <span class="badge badge-amber">Pasien</span>
+            </div>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-success-outline btn-sm" onclick="AdminApp.approveEntity('Yanti Kusuma', this)"><i class="fas fa-check"></i> Approve</button>
+              <button class="btn btn-danger btn-sm"><i class="fas fa-times"></i> Tolak</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VIEW: CONTRACT ═══ -->
+  <div id="view-contract" class="view">
+    <div style="max-width:760px">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="icon" style="background:var(--color-navy-800);color:var(--color-cyan)"><i class="fas fa-file-code"></i></div>
+            Informasi Smart Contract
+          </div>
+        </div>
+        <p style="font-size:0.875rem;color:var(--color-navy-400);margin-bottom:20px">
+          Referensi fungsi-fungsi smart contract MedChain yang akan digunakan saat integrasi backend selesai.
+        </p>
+
+        <!-- ABI Preview -->
+        <div style="margin-bottom:20px">
+          <div class="form-label" style="margin-bottom:8px">Fungsi Contract (Placeholder ABI)</div>
+          <div style="background:var(--color-navy);border-radius:var(--radius-md);padding:18px;overflow-x:auto">
+            <pre style="font-family:var(--font-mono);font-size:0.75rem;color:#e2e8f0;line-height:1.7;margin:0"><span style="color:#06b6d4">registerPatient</span><span style="color:#94a3b8">(address wallet, string name)</span>
+<span style="color:#06b6d4">registerDoctor</span><span style="color:#94a3b8">(address wallet, string name, string licenseId)</span>
+<span style="color:#06b6d4">grantAccess</span><span style="color:#94a3b8">(address doctor, uint256 expiry)</span>
+<span style="color:#06b6d4">revokeAccess</span><span style="color:#94a3b8">(address doctor)</span>
+<span style="color:#06b6d4">addMedicalRecord</span><span style="color:#94a3b8">(address patient, string ipfsHash, string recordType)</span>
+<span style="color:#06b6d4">getMedicalRecords</span><span style="color:#94a3b8">(address patient) → Record[]</span>
+<span style="color:#06b6d4">hasAccess</span><span style="color:#94a3b8">(address doctor, address patient) → bool</span>
+<span style="color:#06b6d4">getAccessList</span><span style="color:#94a3b8">(address patient) → address[]</span></pre>
+          </div>
+        </div>
+
+        <!-- Events -->
+        <div>
+          <div class="form-label" style="margin-bottom:8px">Events</div>
+          <div style="background:var(--color-navy);border-radius:var(--radius-md);padding:18px;overflow-x:auto">
+            <pre style="font-family:var(--font-mono);font-size:0.75rem;color:#e2e8f0;line-height:1.7;margin:0"><span style="color:#8b5cf6">event</span> <span style="color:#06b6d4">AccessGranted</span><span style="color:#94a3b8">(address indexed patient, address indexed doctor, uint256 expiry)</span>
+<span style="color:#8b5cf6">event</span> <span style="color:#06b6d4">AccessRevoked</span><span style="color:#94a3b8">(address indexed patient, address indexed doctor)</span>
+<span style="color:#8b5cf6">event</span> <span style="color:#06b6d4">RecordAdded</span><span style="color:#94a3b8">(address indexed patient, address indexed doctor, string ipfsHash)</span>
+<span style="color:#8b5cf6">event</span> <span style="color:#06b6d4">EntityRegistered</span><span style="color:#94a3b8">(address indexed entity, uint8 entityType)</span></pre>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;padding:12px 14px;background:var(--color-cyan-light);border-radius:var(--radius-md);font-size:0.8125rem;color:var(--color-cyan-dark)">
+          <i class="fas fa-info-circle"></i> Smart contract belum dideploy. Hubungkan wallet dan deploy ke Sepolia Testnet untuk mengaktifkan semua fungsi.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js" crossorigin="anonymous"></script>
+<script src="js/config.js"></script>
+<script src="js/wallet.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // Tx simulation for admin
+  const methods = ['grantAccess','revokeAccess','addMedicalRecord','registerPatient','registerDoctor'];
+  const times   = ['2s lalu','1m lalu','5m lalu','12m lalu','23m lalu','1j lalu','2j lalu'];
+
+  function renderTxSim() {
+    const tbody = document.getElementById('tx-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = Array.from({length:8}, (_,i) => {
+      const hash   = '0x'+[...Array(64)].map(()=>Math.floor(Math.random()*16).toString(16)).join('');
+      const method = methods[Math.floor(Math.random()*methods.length)];
+      const from   = '0x'+[...Array(40)].map(()=>Math.floor(Math.random()*16).toString(16)).join('');
+      const block  = (21000000 + Math.floor(Math.random()*1000)).toLocaleString();
+      const time   = times[i % times.length];
+      return `<tr>
+        <td><a class="hash-link" href="https://sepolia.etherscan.io/tx/${hash}" target="_blank">${hash.slice(0,10)}…${hash.slice(-6)}</a></td>
+        <td><span class="badge badge-cyan">${method}</span></td>
+        <td><span class="mono text-xs">${from.slice(0,8)}…${from.slice(-4)}</span></td>
+        <td style="font-family:var(--font-mono);font-size:0.8125rem">${block}</td>
+        <td style="font-size:0.8125rem;color:var(--color-navy-400)">${time}</td>
+        <td><span class="badge badge-green">Success</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  // Entity search filter
+  const AdminSearch = {
+    filter(q) {
+      const rows = document.querySelectorAll('#entities-tbody tr');
+      rows.forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+      });
+    }
+  };
+
+  // Approve pending entity
+  AdminApp.approveEntity = async function(name, btn) {
+    const restore = UI.setButtonLoading(btn, '…');
+    try {
+      const txHash = await UI.simulateTx(`registerEntity("${name}")`, 1500, 3000);
+      UI.Toast.success(`${name} Disetujui!`, `Tx: ${UI.shortHash(txHash)}`);
+      btn.closest('div[style]').closest('div[style]')?.remove();
+    } catch(err) {
+      UI.Toast.error('Gagal', err.message);
+      restore();
+    }
+  };
+
+  // Init
+  document.addEventListener('DOMContentLoaded', () => {
+    renderTxSim();
+  });
+</script>
+</body>
+</html>
