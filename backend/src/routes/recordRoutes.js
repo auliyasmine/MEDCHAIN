@@ -5,7 +5,7 @@ const {
   uploadDocument,
   getPendingUploads,
   markPendingVerified,
-  getPatientUploads,
+  getMyUploads,
   getRecords,
   getRecordCount,
   verifyRecord,
@@ -15,7 +15,7 @@ router.post('/upload',           upload.single('document'), uploadDocument);  //
 router.post('/verify',           verifyRecord);                                // POST /api/records/verify
 router.get('/pending',           getPendingUploads);                           // GET  /api/records/pending?doctorAddress=
 router.patch('/pending/:id/verify', markPendingVerified);                     // PATCH /api/records/pending/:id/verify
-router.get('/:patientAddress/pending', getPatientUploads);                    // GET  /api/records/:patientAddress/pending — riwayat pengajuan pasien
+router.get('/:patientAddress/pending', getMyUploads);                    // GET  /api/records/:patientAddress/pending — riwayat pengajuan pasien
 router.get('/:patientAddress/count', getRecordCount);                          // GET  /api/records/:patientAddress/count
 router.get('/:patientAddress',   getRecords);                                  // GET  /api/records/:patientAddress
 
